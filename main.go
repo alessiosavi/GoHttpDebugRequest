@@ -11,6 +11,7 @@ import (
 )
 
 func DumpRequest(w http.ResponseWriter, req *http.Request) {
+
 	requestDump, err := httputil.DumpRequest(req, true)
 	if err != nil {
 		fmt.Fprint(w, err.Error())
@@ -31,6 +32,13 @@ func main() {
 
 	router := mux.NewRouter()
 	router.HandleFunc("/get", DumpRequest).Methods("GET")
+	router.HandleFunc("/head", DumpRequest).Methods("HEAD")
 	router.HandleFunc("/post", DumpRequest).Methods("POST")
+	router.HandleFunc("/put", DumpRequest).Methods("PUT")
+	router.HandleFunc("/delete", DumpRequest).Methods("DELETE")
+	router.HandleFunc("/connect", DumpRequest).Methods("CONNECT")
+	router.HandleFunc("/options", DumpRequest).Methods("OPTIONS")
+	router.HandleFunc("/trace", DumpRequest).Methods("TRACE")
+	router.HandleFunc("/patch", DumpRequest).Methods("PATCH")
 	log.Fatal(http.ListenAndServe(fmt.Sprintf("%s:%d", *host, *port), router))
 }
